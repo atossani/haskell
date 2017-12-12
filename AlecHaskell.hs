@@ -132,6 +132,7 @@ prodN n = (mod n 10) * prodN (div n 10)
 
 --general operation
 type Binary = Integer -> Integer -> Integer
+
 opN :: Binary -> Integer -> Integer -> Integer
 opN bin base 0 = base
 opN bin base n = bin (mod n 10) (opN bin base (div n 10))
