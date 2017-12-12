@@ -20,7 +20,7 @@ map (+ 2) ff
 --}
 
 ff :: [Integer]
-ff = [1,2,3,4,5]
+ff = [1,2,3,4,5,6]
 
 gg :: [Integer]
 gg = [1..20]
