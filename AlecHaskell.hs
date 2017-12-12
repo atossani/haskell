@@ -20,7 +20,7 @@ map (+ 2) ff
 --}
 
 ff :: [Integer]
-ff = [1,2,3,4,5]
+ff = [1,2,3,4,5,6]
 
 gg :: [Integer]
 gg = [1..20]
@@ -132,6 +132,7 @@ prodN n = (mod n 10) * prodN (div n 10)
 
 --general operation
 type Binary = Integer -> Integer -> Integer
+
 opN :: Binary -> Integer -> Integer -> Integer
 opN bin base 0 = base
 opN bin base n = bin (mod n 10) (opN bin base (div n 10))
