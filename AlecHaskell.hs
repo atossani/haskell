@@ -40,7 +40,7 @@ dropbear n1 n2 xs = (take n1 xs) ++ (drop n2 xs)
 
 fake :: Integer -> Integer
 fake 0 = 1
-fake n = 5
+fake n = 7
 
 -- Length of a list
 len :: [a] -> Integer
