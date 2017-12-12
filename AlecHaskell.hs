@@ -100,9 +100,18 @@ fastcat :: Integer -> Integer -> Integer
 fastcat n1 n2 = (n1 * 10^(len2 n2)) + n2
 
 --reverse
+-- This doesn't work for cases where there is a 0 in the middle of the
+-- number, ex 9008 will return 89 instead of 8009
+-- revN :: Integer -> Integer
+-- revN 0 = 0
+-- revN n = fastcat (mod n 10) (revN (div n 10))
+
+-- Jon's fix for the above problem
 revN :: Integer -> Integer
-revN 0 = 0
-revN n = fastcat (mod n 10) (revN (div n 10))
+revN n = ff n 0
+  where
+    ff 0 es = es
+    ff ns es =  ff (div ns 10) (es * 10 + mod ns 10)
 
 {--
 mod 12345 10 ++ (revN (div 12345 10))
@@ -231,6 +240,7 @@ factors n = [x | x <- [1..n], mod n x == 0]
 isprime :: Integer -> Bool
 isprime n = length(factors n) == 2
 
+
 {--
 The solution below is too slow for a large number, was just an exercise to think about the problem.
 
@@ -252,4 +262,23 @@ euler3 n = hackN n 2
                   | otherwise = hackN n (k + 1)
 
 
+{-- A palindromic number reads the same both ways. The largest
+palindrome made from the product of two 2-digit numbers is 9009 = 91 ×
+99.
+
+Find the largest palindrome made from the product of two 3-digit
+numbers. --}
+
+-- Alec's solution
+-- Sort of Jon's solution. Alec gave up on solution without list and stole part of Jon's idea.
+
+euler4 :: [Integer] -> [Integer] -> Integer
+euler4 ns ms = maximum [(n * m) | n <- reverse ns, m <- reverse ms, ispal (n * m)]
+    where
+        ispal x = x == revN x
+
+-- Solution found on Project Euler forum to ask Jon about
+-- [m | a <- [9], b <- [0..9], c
+-- <- [0..9], m <- [100001* a + 10010 * b + 1100 * c], [x | x <-
+-- [100..999], m `mod` x == 0 && m `div` x < 1000] /= []]
 
