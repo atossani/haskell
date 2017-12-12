@@ -1,4 +1,5 @@
 module AlecHaskell where
+-- :set +s (shows benchmark)
 
 {--
 meta methods:
@@ -202,7 +203,7 @@ fib :: Integer -> Integer
 fib 0 = 0
 fib 1 = 1
 fib 2 = 1
-fib n = (fib (n-1) + fib (n-2))
+fib n = (fib (n - 1) + fib (n - 2))
 
 ------------
 -- Scoping
@@ -214,8 +215,8 @@ fibs = f 0 1
 
 -- scoping is local (within scope of fibs, we've defined function f)
 
-euler2 :: [Integer]
-euler2 = [x | x <- fibs, mod x 2 == 0]
+euler2 :: Integer -> Integer
+euler2 n = sum $ takeWhile (<= n) [x | x <- fibs, mod x 2 == 0]
 
 
 {--
@@ -223,5 +224,32 @@ The prime factors of 13195 are 5, 7, 13 and 29.
 
 What is the largest prime factor of the number 600851475143?
 --}
+
+factors :: Integer -> [Integer]
+factors n = [x | x <- [1..n], mod n x == 0]
+
+isprime :: Integer -> Bool
+isprime n = length(factors n) == 2
+
+{--
+The solution below is too slow for a large number, was just an exercise to think about the problem.
+
+-- primes :: [Integer]
+-- primes = [x | x <- [1..], isprime x]
+
+-- primesN :: Integer -> [Integer]
+-- primesN n = [x | x <- factors n, isprime x]
+
+-- euler3 :: Integer -> Integer
+-- euler3 = maximum.primesN
+--}
+
+euler3 :: Integer -> Integer
+euler3 n = hackN n 2    
+    where
+        hackN n k | n == k = n
+                  | mod n k == 0 = hackN (div n k) k
+                  | otherwise = hackN n (k + 1)
+
 
 
