@@ -1,5 +1,9 @@
 module ProjectEuler where
 
+import NumberTheory
+
+import AlecHaskell
+
 -- Project Euler solutions
 
 
