@@ -87,6 +87,7 @@ euler4 ns ms = maximum [(n * m) | n <- reverse ns, m <- reverse ms, ispal (n * m
 -- [100..999], m `mod` x == 0 && m `div` x < 1000] /= []]
 
 
+
 ------------------------
 
 {-- 2520 is the smallest number that can be divided by each of the
@@ -100,8 +101,10 @@ pfact m n = fact m n 1
     where fact m n k | n^k > m = n^(k - 1)
                      | otherwise = fact m n (k + 1)
 
-euler5 :: Integer -> Integer -> [Integer]
-euler5 m n = [pfact m n] ++ euler5 m (n + 1)
+euler5 :: Integer -> Integer
+euler5 m = product $ map (pfact m) (takeWhile (< m) eratosthenes2)
+
+
 
 ------------------------
 
@@ -131,7 +134,7 @@ can see that the 6th prime is 13.
 What is the 10 001st prime number? --}
 
 euler7 :: Integer -> Integer
-euler7 n = head $ drop (fromIntegral (n - 1)) [1..]
+euler7 n = head $ drop (fromIntegral (n - 1)) eratosthenes2
 
 
 ------------------------
