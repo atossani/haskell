@@ -20,18 +20,24 @@ fibs = f 0 1
     where
         f n m = (n + m) : f m (n + m)
 
--- scoping is local (within scope of fibs, we've defined function f)
--- other functions can be defined under same 'where'
-
-
-primes :: [Integer] -> [Integer] -> [Integer]
-primes (n:ns) xs | any (gg n) xs = primes ns xs
-                 | otherwise = primes ns (n:xs)
-    where
-        gg n x = mod n x == 0
-
-
 triangles :: [Integer]
 triangles = t 1 1
     where
       t n m = n : t (n + (m + 1)) (m + 1)
+
+-- scoping is local (within scope of fibs, we've defined function f)
+-- other functions can be defined under same 'where'
+
+---------------
+-- Prime Sieves
+
+-- relying on multiplication and gcd.
+
+eratosthenes2 :: [Integer]
+eratosthenes2 = 2 : sieveP [1..] 2
+  where
+    sieveP (n:ns) xs | gg (2 * n + 1) xs = sieveP ns xs
+                     | otherwise = (2 * n + 1) : sieveP ns ((2 * n + 1)*xs)
+    gg n m = gcd n m > 1
+
+
