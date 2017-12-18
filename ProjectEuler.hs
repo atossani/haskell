@@ -6,7 +6,6 @@ import AlecHaskell
 
 -- Project Euler solutions
 
-
 ------------------------
 
 {-- If we list all the natural numbers below 10 that are multiples of
@@ -16,6 +15,7 @@ Find the sum of all the multiples of 3 or 5 below 1000. --}
 
 euler1 :: Integer
 euler1 = sum [x | x <- [1..999], mod x 3 == 0 || mod x 5 == 0]
+
 
 
 ------------------------
@@ -33,6 +33,7 @@ exceed four million, find the sum of the even-valued terms.
 
 euler2 :: Integer -> Integer
 euler2 n = sum $ takeWhile (<= n) [x | x <- fibs, mod x 2 == 0]
+
 
 
 ------------------------
@@ -62,6 +63,7 @@ euler3 n = hackN n 2
         hackN n k | n == k = n
                   | mod n k == 0 = hackN (div n k) k
                   | otherwise = hackN n (k + 1)
+
 
 
 ------------------------
@@ -126,6 +128,7 @@ euler6 :: [Integer] -> Integer
 euler6 ns = ((sum ns)^2) - (sum [(x^2) | x <- ns])
 
 
+
 ------------------------
 
 {-- By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we
@@ -135,6 +138,37 @@ What is the 10 001st prime number? --}
 
 euler7 :: Integer -> Integer
 euler7 n = head $ drop (fromIntegral (n - 1)) eratosthenes2
+
+
+
+------------------------
+
+{--A Pythagorean triplet is a set of three natural numbers, a < b < c, for which,
+
+a2 + b2 = c2
+For example, 32 + 42 = 9 + 16 = 25 = 52.
+
+There exists exactly one Pythagorean triplet for which a + b + c = 1000.
+Find the product abc.--}
+
+
+euler9 :: Integer -> Integer
+euler9 n = pyth (abcs n)
+    where
+        abcs n = [(a,b,c) | a <- [2..(n - 2)], b <- [3..(n - 2)], c <- [4..(n - 2)], (a<b), (b<c), (a+b+c==n)]
+        pyth ((a, b, c):abcs) | (a^2) + (b^2) == (c^2) = a*b*c
+                              | otherwise = pyth (abcs)
+
+
+------------------------
+
+{--The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.
+
+Find the sum of all the primes below two million.--}
+
+euler10 :: Integer -> Integer
+euler10 n = sum $ takeWhile (< n) eratosthenes2
+
 
 
 ------------------------
@@ -154,7 +188,10 @@ over five divisors.
 What is the value of the first triangle number to have over five
 hundred divisors?--}
 
--- euler12 :: Integer -> Integer
+euler12 :: Int -> [Integer] -> Integer
+euler12 n (x:xs) | (length (factors x)) >= n = x
+                 | otherwise = euler12 n xs
+
 
 
 ------------------------
@@ -165,6 +202,7 @@ What is the sum of the digits of the number 21000?--}
 
 euler16 :: Integer -> Integer
 euler16 n = sum (listify (2^n))
+
 
 
 ------------------------
@@ -178,6 +216,7 @@ Find the sum of the digits in the number 100!--}
 
 euler20 :: Integer -> Integer
 euler20 n = sum (listify (product [1..n]))
+
 
 
 ------------------------
