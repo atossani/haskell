@@ -4,6 +4,8 @@ import NumberTheory
 
 import AlecHaskell
 
+type Prime = Integer
+
 -- Project Euler solutions
 
 ------------------------
@@ -188,8 +190,17 @@ over five divisors.
 What is the value of the first triangle number to have over five
 hundred divisors?--}
 
-euler12 :: Int -> [Integer] -> Integer
-euler12 n (x:xs) | (length (factors x)) >= n = x
+fsinnum :: Integer -> Integer
+fsinnum n = ff n eratosthenes2 0
+    where
+        ff n (k:ks) j | n < k = j + 1
+                      | mod n k == 0 = ff (div n k) (k:ks) (j + 1)
+                      | j == 0 = ff n ks 0
+                      | otherwise = (j + 1) * ff n ks 0
+
+
+euler12 :: Integer -> [Integer] -> Integer
+euler12 n (x:xs) | fsinnum x > n = x
                  | otherwise = euler12 n xs
 
 

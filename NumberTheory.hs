@@ -20,10 +20,16 @@ fibs = f 0 1
     where
         f n m = (n + m) : f m (n + m)
 
-triangles :: [Integer]
-triangles = t 1 1
-    where
-      t n m = n : t (n + (m + 1)) (m + 1)
+tris :: [Integer]
+tris = [(n^2 + n) `div` 2 | n <- [1..]]
+
+
+-- alec's stupid triangle generator
+-- triangles :: [Integer]
+-- triangles = t 1 1
+--     where
+--       t n m = n : t (n + (m + 1)) (m + 1)
+
 
 -- scoping is local (within scope of fibs, we've defined function f)
 -- other functions can be defined under same 'where'
