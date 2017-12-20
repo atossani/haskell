@@ -157,8 +157,8 @@ Find the product abc.--}
 euler9 :: Integer -> Integer
 euler9 n = pyth (abcs n)
     where
-        abcs n = [(a,b,c) | a <- [2..(n - 2)], b <- [3..(n - 2)], c <- [4..(n - 2)], (a<b), (b<c), (a+b+c==n)]
-        pyth ((a, b, c):abcs) | (a^2) + (b^2) == (c^2) = a*b*c
+        abcs n = [(a,b,c) | a <- [2..(n - 2)], b <- [3..(n - 2)], c <- [4..(n - 2)], (a < b), (b < c), (a + b + c == n)]
+        pyth ((a, b, c):abcs) | (a^2) + (b^2) == (c^2) = a * b * c
                               | otherwise = pyth (abcs)
 
 
@@ -207,9 +207,9 @@ euler12 n (x:xs) | fsinnum x > n = x
 
 ------------------------
 
-{--215 = 32768 and the sum of its digits is 3 + 2 + 7 + 6 + 8 = 26.
+{--2^15 = 32768 and the sum of its digits is 3 + 2 + 7 + 6 + 8 = 26.
 
-What is the sum of the digits of the number 21000?--}
+What is the sum of the digits of the number 2^1000?--}
 
 euler16 :: Integer -> Integer
 euler16 n = sum (listify (2^n))
@@ -243,7 +243,22 @@ are 1, 2, 4, 71 and 142; so d(284) = 220.
 
 Evaluate the sum of all the amicable numbers under 10000.--}
 
--- euler21
+euler21 :: Integer -> Integer
+euler21 n | n > 10^4 = 0
+          | amicable n = n + euler21 (n+1)
+          | otherwise = euler21 (n+1)
+
+amicable :: Integer -> Bool
+amicable n | plusfacts n == n = False
+           | otherwise = (plusfacts.plusfacts) n == n
+
+plusfacts :: Integer -> Integer
+plusfacts 1 = 1
+plusfacts n = ff 0 1 n
+  where
+    ff accum x n | n == x = accum
+                 | mod n x == 0 = ff (accum + x) (x + 1) n
+                 | otherwise = ff accum (x + 1) n
 
 
 ------------------------
