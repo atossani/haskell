@@ -261,6 +261,7 @@ plusfacts n = ff 0 1 n
                  | otherwise = ff accum (x + 1) n
 
 
+
 ------------------------
 
 {--The Fibonacci sequence is defined by the recurrence relation:
@@ -290,3 +291,47 @@ euler25 n = ff n fibs 2
     ff n (f:fs) accum | len2 f == n = accum
                       | otherwise = ff n fs (accum + 1)
 
+
+
+------------------------
+
+{--A unit fraction contains 1 in the numerator. The decimal
+representation of the unit fractions with denominators 2 to 10 are
+given:
+
+1/2 =   0.5 1/3 =   0.(3) 1/4 =   0.25 1/5 =   0.2 1/6 =   0.1(6) 1/7
+=   0.(142857) 1/8 =   0.125 1/9 =   0.(1) 1/10  =   0.1 Where 0.1(6)
+means 0.166666..., and has a 1-digit recurring cycle. It can be seen
+that 1/7 has a 6-digit recurring cycle.
+
+Find the value of d < 1000 for which 1/d contains the longest
+recurring cycle in its decimal fraction part.--}
+
+--euler27
+
+
+------------------------
+
+{--Starting with the number 1 and moving to the right in a clockwise
+direction a 5 by 5 spiral is formed as follows:
+
+21 22 23 24 25
+20  7  8  9 10
+19  6  1  2 11
+18  5  4  3 12
+17 16 15 14 13
+
+It can be verified that the sum of the numbers on the diagonals is
+101.
+
+What is the sum of the numbers on the diagonals in a 1001 by 1001
+spiral formed in the same way?--}
+
+euler28 :: Integer
+euler28 = sum (map (sum) [spiral 2, spiral 4, spiral 6, spiral 8]) - 3
+
+spiral :: Integer -> [Integer]
+spiral n = ff n [1] 0
+  where
+    ff n as c | c == 500 = as
+              | otherwise = ff (n + 8) ((head as + n):as) (c + 1)
