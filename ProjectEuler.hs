@@ -328,10 +328,10 @@ What is the sum of the numbers on the diagonals in a 1001 by 1001
 spiral formed in the same way?--}
 
 euler28 :: Integer
-euler28 = sum (map (sum) [spiral 2, spiral 4, spiral 6, spiral 8]) - 3
+euler28 = foldr ((+).spiral) 0 [2,4,6,8] - 3
 
-spiral :: Integer -> [Integer]
-spiral n = ff n [1] 0
+spiral :: Integer -> Integer
+spiral n = ff n 1 500
   where
-    ff n as c | c == 500 = as
-              | otherwise = ff (n + 8) ((head as + n):as) (c + 1)
+    ff n a 0 = 1
+    ff n a c = a + n + ff (n + 8) (a + n) (c - 1)
