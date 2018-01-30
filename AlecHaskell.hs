@@ -1,6 +1,9 @@
 module AlecHaskell where
 
 import NumberTheory
+
+import Vector
+
 -- :set +s (shows benchmark)
 
 {--
@@ -132,6 +135,10 @@ mod 12345 10 ++ (revN (div 12345 10))
 54321 * 10^0 + 0
 --}
 
+--decimals?
+deci 0 = [0]
+deci n = (div 10 n) : deci (mod 10 n)
+
 --sum
 sumN :: Integer -> Integer
 sumN 0 = 0
@@ -185,4 +192,8 @@ ge = filter (\n -> mod n 5 == 0) [1..100]
 
 gge :: Integral a => [a] -> [a]
 gge = filter (\n -> mod n 5 == 0)
+
+
+------------
+-- Vector Classes
 

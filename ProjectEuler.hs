@@ -4,6 +4,8 @@ import NumberTheory
 
 import AlecHaskell
 
+import Vector
+
 type Prime = Integer
 
 -- Project Euler solutions
