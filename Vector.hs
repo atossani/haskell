@@ -1,5 +1,5 @@
 module Vector where
--- import System.Random
+import System.Random
 
 -- Data Declarations in Haskell book
 
