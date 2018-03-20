@@ -20,10 +20,16 @@ ungroup :: [GoogleRecord] -> [WyndhamRecord] -> [(GroupName, [Brand])]
 ungroup gs ws = filter (\(a,b) -> b == []) $ returnBrand gs ws
 
 missing :: [WyndhamRecord] -> [GoogleRecord] -> [([GroupName], Brand)]
-missing ws gs = filter (\(a,b) -> b == []) $ returnMissing ws gs
+missing ws gs = filter (\(a,b) -> a == []) $ returnMissing ws gs
     where
+        returnMissing [] _ = []
         returnMissing (w:ws) gs = (groupnames w gs, brand w) : returnMissing ws gs
         groupnames wrec = (map groupName).filter (\w -> site wrec == hotelId w)
+
+-- returnMissing [] _ = []
+-- returnMissing (w:ws) gs = (groupnames w gs, brand w) : returnMissing ws gs
+--   where
+--     groupnames wrec = (map groupName).filter (\w -> site wrec == hotelId w)
 
 -- Find records where brand and group are the same
 -- filter (\(a,b) -> a == b) $ returnBrand grecords wrecords
