@@ -1,47 +1,32 @@
 module HotelAssignment where
 
+import CSVParser
 import qualified Data.ByteString.Lazy as BL
-import Data.Vector (Vector, empty, toList)
-import Data.Either.Extra (fromRight)
-import Data.List
-import qualified Data.Csv as CSV
 
-type Record = [String]
+main = do  
+  google <- BL.readFile "./google.csv"
+  wyndham <- BL.readFile "./wyndham.csv"
+  let grecords = googleRecords google
+  let wrecords = wyndhamRecords wyndham
+  print $ returnBrand grecords wrecords
 
-data GoogleRecord = GRec {accountId::Integer,
-                       accountName::String,
-                       groupName::String,
-                       hotelId::Integer,
-                       hotelName::String} | BadGoogleRecord deriving Show
-
-data WyndhamRecord = WRec {brand::String, site::Integer} | BadWyndhamRecord
-                       deriving Show
-
-parseCsv csv = CSV.decode CSV.HasHeader csv :: Either String (Vector Record)
-
-toGoogleRecord :: Record -> GoogleRecord
-toGoogleRecord [ai, an, gn, hi, hn] = GRec (read ai) an gn (read hi) hn
-toGoogleRecord _ = BadGoogleRecord
-
-gRecords = (map toGoogleRecord).toList.(fromRight empty).parseCsv
-
-toWyndhamRecord :: Record -> WyndhamRecord
-toWyndhamRecord (brand:_:site:ts) = WRec brand (read site)
-toWyndhamRecord _ = BadWyndhamRecord
-
-wynRecords = (map toWyndhamRecord).toList.(fromRight empty).parseCsv
-
-type Brand = String
-type GroupName = String
 returnBrand :: [GoogleRecord] -> [WyndhamRecord] -> [(GroupName, [Brand])]
 returnBrand [] _ = []
-returnBrand (g:gs) ws = (groupName g, f g ws) : returnBrand gs ws
-    where
-        f g = (map brand).filter (\w -> hotelId g == site w)
+returnBrand (g:gs) ws = (groupName g, brands g ws) : returnBrand gs ws
+  where
+    brands grec = (map brand).filter (\w -> hotelId grec == site w)
 
-{--
-google <- BL.readFile "google.csv"
-wyndham <- BL.readFile "wyndham.csv"
-ws = wynRecords wyndham
-gs = gRecords google
---}
+ungroup :: [GoogleRecord] -> [WyndhamRecord] -> [(GroupName, [Brand])]
+ungroup gs ws = filter (\(a,b) -> b == []) $ returnBrand gs ws
+
+missing :: [WyndhamRecord] -> [GoogleRecord] -> [([GroupName], Brand)]
+missing ws gs = filter (\(a,b) -> b == []) $ returnMissing ws gs
+    where
+        returnMissing (w:ws) gs = (groupnames w gs, brand w) : returnMissing ws gs
+        groupnames wrec = (map groupName).filter (\w -> site wrec == hotelId w)
+
+-- Find records where brand and group are the same
+-- filter (\(a,b) -> a == b) $ returnBrand grecords wrecords
+
+-- Find records where brand and group are different
+-- filter (\(a,b) -> a /= b) $ returnBrand grecords wrecords
