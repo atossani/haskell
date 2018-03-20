@@ -4,11 +4,11 @@ import Listable
 import System.Random
 
 --qsort
-qs = [5,3,7,1,4]
+qs = [5,3,7,1,4,4]
 
 qsort :: Ord a => [a] -> [a]
 qsort [] = []
-qsort (n:ns) = (qsort [y | y <- ns, y < n]) ++ [n] ++ (qsort [x | x <- ns, x > n])
+qsort (n:ns) = (qsort [y | y <- ns, y <= n]) ++ [n] ++ (qsort [x | x <- ns, x > n])
 
 
 keys :: [Integer]
