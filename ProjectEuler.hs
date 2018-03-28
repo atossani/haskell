@@ -337,3 +337,45 @@ spiral n = ff n 1 500
   where
     ff n a 0 = 1
     ff n a c = a + n + ff (n + 8) (a + n) (c - 1)
+
+
+------------------------
+
+{-- Surprisingly there are only three numbers that can be written as
+the sum of fourth powers of their digits:
+
+1634 = 14 + 64 + 34 + 44 8208 = 84 + 24 + 04 + 84 9474 = 94 + 44 + 74
++ 44 As 1 = 14 is not a sum it is not included.
+
+The sum of these numbers is 1634 + 8208 + 9474 = 19316.
+
+Find the sum of all the numbers that can be written as the sum of
+fifth powers of their digits.--}
+
+euler30 :: [Integer] -> [Integer]
+euler30 [] = []
+euler30 (x:xs) | x == (sum (map (^5) (f x))) = x : euler30 xs
+               | otherwise = euler30 xs
+                  where
+                    f n = listify n
+
+-- Need to sum(euler30 [1111..999999]) for final answer
+
+
+------------------------
+
+{-- In England the currency is made up of pound, £, and pence, p, and
+there are eight coins in general circulation:
+
+1p, 2p, 5p, 10p, 20p, 50p, £1 (100p) and £2 (200p). It is possible to
+make £2 in the following way:
+
+1×£1 + 1×50p + 2×20p + 1×5p + 1×2p + 3×1p How many different ways can
+£2 be made using any number of coins?--}
+
+tw = [(a,b) | a <- (map (\w -> 200-w) [0..200]),
+  b <- (map (*2) [0..100]), (a + b == 200)]
+fi = [(a,b,c) | a <- (map (\w -> 200-w) [0..200]),
+  b <- (map (*2) [0..100]), c <- (map (*5) [0..40]), (a + b + c == 200)]
+twh = [0,200]
+onh = [(a,b) | a <- [0,100,200], b <- twh, (a + b == 200)]

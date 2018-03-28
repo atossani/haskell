@@ -15,6 +15,7 @@ type EitherWyndham = Either String (Vector WyndhamRecord)
 
 type Brand = String
 type GroupName = String
+type Site = Integer
 
 
 data GoogleRecord = BadGoogleRecord |

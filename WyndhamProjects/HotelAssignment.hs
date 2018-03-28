@@ -19,12 +19,13 @@ returnBrand (g:gs) ws = (groupName g, brands g ws) : returnBrand gs ws
 ungroup :: [GoogleRecord] -> [WyndhamRecord] -> [(GroupName, [Brand])]
 ungroup gs ws = filter (\(a,b) -> b == []) $ returnBrand gs ws
 
-missing :: [WyndhamRecord] -> [GoogleRecord] -> [([GroupName], Brand)]
-missing ws gs = filter (\(a,b) -> a == []) $ returnMissing ws gs
+missing :: [WyndhamRecord] -> [GoogleRecord] -> [Site]
+missing ws gs = map snd $ filter (\(a,b) -> a == []) $ returnMissing ws gs
     where
         returnMissing [] _ = []
-        returnMissing (w:ws) gs = (groupnames w gs, brand w) : returnMissing ws gs
+        returnMissing (w:ws) gs = (groupnames w gs, site w) : returnMissing ws gs
         groupnames wrec = (map groupName).filter (\w -> site wrec == hotelId w)
+
 
 -- returnMissing [] _ = []
 -- returnMissing (w:ws) gs = (groupnames w gs, brand w) : returnMissing ws gs
