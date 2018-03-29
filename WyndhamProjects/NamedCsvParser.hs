@@ -35,7 +35,7 @@ instance FromNamedRecord WyndhamRecord where
     parseNamedRecord m = WRec <$> m .: "Brand." <*> m .: "Site."
 
 googleRecords = toList.(fromRight empty).parseCsv
-  where parseCsv csv = decode NoHeader csv :: EitherGoogle
+  where parseCsv csv = decode HasHeader csv :: EitherGoogle
 
 wyndhamNamedRecords = toList.getRecords.parseCsv
   where
