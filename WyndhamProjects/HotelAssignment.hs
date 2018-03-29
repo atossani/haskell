@@ -1,13 +1,13 @@
 module HotelAssignment where
 
-import CSVParser
+import NamedCSVParser
 import qualified Data.ByteString.Lazy as BL
 
 main = do  
   google <- BL.readFile "./google.csv"
   wyndham <- BL.readFile "./wyndham.csv"
   let grecords = googleRecords google
-  let wrecords = wyndhamRecords wyndham
+  let wrecords = wyndhamNamedRecords wyndham
   print $ returnBrand grecords wrecords
 
 returnBrand :: [GoogleRecord] -> [WyndhamRecord] -> [(GroupName, [Brand])]

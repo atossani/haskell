@@ -1,7 +1,7 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module CSVParser where
+module NamedCSVParser where
 
 import qualified Data.ByteString.Lazy as BL
 import Data.Vector (Vector, empty, toList)
@@ -31,6 +31,8 @@ data WyndhamRecord = BadWyndhamRecord |
 
 
 instance FromRecord GoogleRecord
+instance FromRecord WyndhamRecord where -- namedRecord would be more specific.
+    parseRecord v = WRec <$> v .! 0 <*> v .! 2 -- 0th and 2nd index in Csv
 
 instance FromNamedRecord WyndhamRecord where
     parseNamedRecord m = WRec <$> m .: "Brand." <*> m .: "Site."
