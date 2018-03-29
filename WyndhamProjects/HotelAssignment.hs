@@ -10,6 +10,7 @@ main = do
   let wrecords = wyndhamNamedRecords wyndham
   print $ returnBrand grecords wrecords
 
+-- TODO: Revisit methods from here down to work with NamedCsvParser.
 returnBrand :: [GoogleRecord] -> [WyndhamRecord] -> [(GroupName, [Brand])]
 returnBrand [] _ = []
 returnBrand (g:gs) ws = (groupName g, brands g ws) : returnBrand gs ws
