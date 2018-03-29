@@ -35,7 +35,7 @@ instance FromRecord WyndhamRecord where -- namedRecord would be more specific.
 
 
 googleRecords = toList.(fromRight empty).parseCsv
-  where parseCsv csv = decode HasHeader csv :: EitherGoogle
+  where parseCsv csv = decode NoHeader csv :: EitherGoogle
 
 wyndhamRecords = toList.(fromRight empty).parseCsv
-  where parseCsv csv = decode HasHeader csv :: EitherWyndham
+  where parseCsv csv = decode NoHeader csv :: EitherWyndham
