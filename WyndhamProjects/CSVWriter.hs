@@ -31,4 +31,4 @@ rows = ["Wyndham,Tulin Kurban,71219,80270,WYNDHAM GARDEN DRESDEN,OPMS,DRESDENLEU
 siteids = [448,206,245,252,291,298,318,320,322,358,359,361,395,426,448,456,466]
 
 rowInList = rows!!6 -- HoJos
-rowNotInList = rows!!0
+rowNotInList = rows!!0 -- Wyndham Garden Dresden
