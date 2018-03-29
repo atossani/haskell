@@ -10,9 +10,8 @@ import GHC.Generics (Generic)
 import Data.List
 import Data.Csv
 
-
 type EitherGoogle  = Either String (Vector GoogleRecord)
-type EitherWyndham = Either String (Vector WyndhamRecord)
+type EitherWyndham = Either String (Header, Vector WyndhamRecord)
 
 type Brand = String
 type GroupName = String
@@ -27,12 +26,10 @@ data GoogleRecord = BadGoogleRecord |
                           hotelName :: !String} deriving (Generic, Show)
 
 data WyndhamRecord = BadWyndhamRecord | 
-                     WRec {brand :: !String, site :: !Integer} deriving (Generic, Show)
-
+                     WRec {brand :: !String,
+                           site :: !Integer} deriving (Generic, Show)
 
 instance FromRecord GoogleRecord
-instance FromRecord WyndhamRecord where -- namedRecord would be more specific.
-    parseRecord v = WRec <$> v .! 0 <*> v .! 2 -- 0th and 2nd index in Csv
 
 instance FromNamedRecord WyndhamRecord where
     parseNamedRecord m = WRec <$> m .: "Brand." <*> m .: "Site."
@@ -40,11 +37,15 @@ instance FromNamedRecord WyndhamRecord where
 googleRecords = toList.(fromRight empty).parseCsv
   where parseCsv csv = decode NoHeader csv :: EitherGoogle
 
-wyndhamNamedRecords = toList.(fromRight empty).parseCsv
-  where parseCsv csv = decode HasHeader csv :: EitherWyndham
+wyndhamNamedRecords = toList.getRecords.parseCsv
+  where
+  parseCsv csv = decodeByName csv :: EitherWyndham
+  getRecords (Right (header, content)) = content
 
---- Testing
+-- Testing
 main = do 
   wyndham <- BL.readFile "./wyndham.csv"
   let wrecords = wyndhamNamedRecords wyndham
   print $ map site wrecords
+
+

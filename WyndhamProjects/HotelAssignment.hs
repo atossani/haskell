@@ -1,6 +1,6 @@
 module HotelAssignment where
 
-import NamedCSVParser
+import NamedCSVParser hiding (main)
 import qualified Data.ByteString.Lazy as BL
 
 main = do  
