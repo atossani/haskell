@@ -1,7 +1,6 @@
 module CSVWriter where
-
-import HotelAssignment
 import qualified Data.ByteString.Lazy as BL
+import HotelAssignment
 import Data.List.Split
 import Data.List
 import CSVParser
